@@ -24,10 +24,15 @@ def carry_instructions(stockpile, source):
     with open(source, 'r') as file:
         for line in file:
             instructions = pattern.findall(line)
-            #print(instructions)
-            for i in range(int(instructions[0])):
-                stockpile[int(instructions[2])].append(stockpile[int(instructions[1])][-1])
-                stockpile[int(instructions[1])].pop()
+            number_of_crates = int(instructions[0])
+            source = int(instructions[1])
+            destination = int(instructions[2])
+            bottom = len(stockpile[source]) - number_of_crates
+            for i in range(bottom, len(stockpile[source])):
+                stockpile[destination].append(stockpile[source][i])
+            del stockpile[source][bottom:]
+
+        
 
 stock = load_stockpile(source)
 carry_instructions(stockpile=stock, source=r'Advent_of_Code\2022\Day 5\source.txt')
