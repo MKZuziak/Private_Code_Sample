@@ -28,13 +28,6 @@ with open(r'Advent_of_Code\2022\Day 7\source.txt', 'r') as file:
     for line in file:
         if line[:4] == '$ cd':
             if line[5:7] == '..':
-                # We want to update the size of all the parental folders at this point.
-                par_dir = current_dir.parent
-                cur_dir = current_dir
-                while par_dir.parent != 'Root':
-                    par_dir.size += current_dir.size
-                    par_dir = par_dir.parent
-                    cur_dir = par_dir
                 current_dir = current_dir.parent
             else:
                 name = cd_regex.search(line)
