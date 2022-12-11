@@ -24,7 +24,7 @@ class Path_Tree:
         return '<tree node representation>'
     
 root = Path_Tree('root', 'Root')
-with open(r'Advent_of_Code\2022\Day 7\source.txt', 'r') as file:
+with open(r'Advent_of_Code\2022\Day 7\test.txt', 'r') as file:
     current_dir = root # Setting current_dir to dummy root
     for line in file:
         if line[:4] == '$ cd':
