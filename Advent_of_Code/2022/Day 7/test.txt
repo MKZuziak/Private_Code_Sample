@@ -1,0 +1,38 @@
+$ cd e
+$ ls
+584 wvbnz
+$ cd ..
+$ cd a
+$ ls
+dir ab
+dir abb
+94853 wvbnz
+$ cd ab
+$ ls
+$ cd abb
+$ ls
+$ cd ..
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+dir dc
+24933642 wvbnz
+$ cd dc
+$ ls
+dir dcc
+$ cd dcc
+$ cd ..
+$ cd ..
+$ cd ..
+$ cd /
+$ ls
+16127055 wjdski
+16127055 sddweds
+16127055 wvbnz
+dir as
+dir ab
+$ cd /as
+$ cd ..
+$ cd /ab
+$ ls

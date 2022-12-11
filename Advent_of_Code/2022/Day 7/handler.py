@@ -6,44 +6,45 @@ file_regex = re.compile(r'(\d+) (.*.)')
 
 class Path_Tree:
     def __init__(self, name, parent):
-        self.name = name
-        self.parent = parent
+        self.name = name # String, name of the folder
+        self.parent = parent # Path_Tree Object of the parental node
         self.children = dict() # {Name of file: Path_Tree object}
         self.files = dict() # {Name of file: Size}
-        self.size = 0
+        self.size = 0 # Size
     
 root = Path_Tree('root', 'Root')
 with open(r'Advent_of_Code\2022\Day 7\source.txt', 'r') as file:
-    current_dir = root
+    current_dir = root # Setting current_dir to dummy root
     for line in file:
         if line[:4] == '$ cd':
             if line[5:7] == '..':
-                current_dir = current_dir.parent
+                current_dir = current_dir.parent # If cd .. we are following pointer to parental Path_Tree object
             else:
                 name = cd_regex.search(line)
-                name = str(name.group(1))
+                name = str(name.group(1)) # Exctraing folder name, e.g. cd a -> a
                 try:
-                    current_dir = current_dir.children[name]
+                    current_dir = current_dir.children[name] # If we already have this object in children
                 except:
-                    child = Path_Tree(name, current_dir)
+                    child = Path_Tree(name, current_dir) # Otherwise create a new Path_Tree Object
                     current_dir.children[name] = child
                     current_dir = current_dir.children[name]
-        elif line[:2].isnumeric():
+        elif line[:2].isnumeric(): # If the input is of size '...'
             size_and_name = file_regex.search(line)
-            size = int(size_and_name.group(1))
-            name = size_and_name.group(2)
-            current_dir.size += size
+            size = int(size_and_name.group(1)) # Name
+            name = size_and_name.group(2) # Size
+            current_dir.size += size # We are adding the size of the file to the current folder
             current_dir.files[name] = size
-            par_dir = current_dir.parent
-            while par_dir.parent != 'Root':
-                par_dir.size += size
-                par_dir = par_dir.parent
+            par_dir = current_dir.parent # Now we are backpropagating the size of the file to the parental folders
+            while par_dir.parent != 'Root': # While the dummy root is not yet reached
+                par_dir.size += size # We are adding size of the file to the parental folders
+                par_dir = par_dir.parent # And we are moving to the next parent.
+                # This way, if the file is in the folder abb that is a <- ab <- abb
+                # All the parental folders (a and ab) will include this file. 
         else:
-            pass
+            pass # We are not interested in other commands.
 
+# For the first task
 below_10000 = []
-space_needed = 30000000 - 24933642
-
 def call_children(tree):
     print("{} that is of size {}".format(tree.name, tree.size))
     if tree.size <= 100000:
@@ -53,13 +54,18 @@ def call_children(tree):
         for child in tree.children:
             call_children(tree.children[child])
 
+# For the second task
 fits = []
 def find_smallets(tree):
-    margin = space_needed - tree.size
-    if margin < 0:
+    if tree.size >= space_needed:
         fits.append(tree.size)
-        print("New best fit founded: delete {} which will give a margin of {}".format(tree.name, margin))
+        print("A new candidate found {} which will give a free space of {}".format(tree.name, tree.size))
     
     if tree.children:
         for child in tree.children:
             find_smallets(tree.children[child])
+free_space = 70000000 - root.children['/'].size
+space_needed = 30000000 - free_space
+print(space_needed)
+find_smallets(root)
+print(sorted(fits))
