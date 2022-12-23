@@ -1,5 +1,6 @@
 import numpy as np
 import copy
+import matplotlib.pyplot as plt
 class Forest():
     def __init__(self, path, shape, verbose=0) -> None:
         self.tar_map = np.empty(shape)
@@ -153,7 +154,34 @@ class Forest():
         else:
             self.scenic_scores_list.sort()
             print("The highest scenic score is: {}".format(self.scenic_scores_list[-1]))
+        
+    def print_forest(self):
+        fig = plt.figure()
+        ax = fig.add_subplot(projection='3d')
+        
+        x = np.arange(0, self.tar_map.shape[0]*3, 1)
+        y = np.arange(0, self.tar_map.shape[1]*3, 1)
+        __xx, __yy = np.meshgrid(x, y)
+        x, y = __xx.ravel(), __yy.ravel()
+        top = self.tar_map.ravel()
+        
+        zeros = np.zeros(top.shape[0] * 9)
+        zeros[::9] = top
+        top = zeros
 
-forest = Forest(path=r'Advent_of_Code\2022\Day 8\source.txt', shape=99, verbose=0)
+        bottom = np.zeros_like(top)
+        width = depth = 0.5
+        print(x.shape)
+        print(y.shape)
+        print(top.shape)
+        
+        #ax.plot_surface(x, y, self.tar_map)
+        ax.bar3d(x, y, bottom, width, depth, top, shade=True)
+        
+        plt.show()
+
+
+forest = Forest(path=r'Advent_of_Code\2022\Day 8\test.txt', shape=5, verbose=0)
 forest.scan()
 forest.scenic_score()
+forest.print_forest()
