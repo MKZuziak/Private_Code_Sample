@@ -1,3 +1,4 @@
+# Time: O(log n)
 import math
 
 def binary_search(array, search):
