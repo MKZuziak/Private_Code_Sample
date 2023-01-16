@@ -29,6 +29,7 @@ def selection_sort(array, order='desc'):
             del array[index_of_interest]
     return sorted_array
 
+# Worst case: O(n^2)
 def quicksort(array):
     if len(array) < 2:
         return array
@@ -38,9 +39,20 @@ def quicksort(array):
         greater = [i for i in array[1:] if i > pivot]
         return quicksort(less) + [pivot] + quicksort(greater)
 
+# Worst case: O(n^2)
+# Average case: O(n log n)
+def quicksort_random(array):
+    if len(array) < 2:
+        return array
+    else:
+        break_point = random.randint(0, len(array) - 1)
+        pivot = array[break_point]
+        less = [i for i in array[break_point + 1 :] if i <= pivot and i for i in array[:break_point] if i <= pivot]
+        greater = [i for i in array[break_point + 1 :] if i > pivot and i for i in array[:break_point] if i > pivot]
+        return quicksort(less) + [pivot] + quicksort(greater)
 
-arr = [random.randint(-100, 100) for i in range(10)]
-sorted = quicksort(arr)
+arr = [random.randint(-100, 100) for i in range(100)]
+sorted = quicksort_random(arr)
 print(sorted)
         
         
