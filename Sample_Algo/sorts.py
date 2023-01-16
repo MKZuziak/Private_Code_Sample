@@ -1,6 +1,7 @@
-# Time: O(n^2)
+import random
 import copy
 
+# Time: O(n^2)
 def selection_sort(array, order='desc'):
     # Note that copy operation has average case of O(n) in Python
     # We can omit making the copy, but then the original (global) array will be consumed.
@@ -28,8 +29,18 @@ def selection_sort(array, order='desc'):
             del array[index_of_interest]
     return sorted_array
 
-arr = [3, 2, 3, 1, 4, 5, 2, 2, 5, 3, 12, 5, 4, 2, -4, -1, -4, -2, -7, -2, -21]
-sorted = selection_sort(arr, order='asc')
+def quicksort(array):
+    if len(array) < 2:
+        return array
+    else:
+        pivot = array[0]
+        less = [i for i in array[1:] if i <= pivot]
+        greater = [i for i in array[1:] if i > pivot]
+        return quicksort(less) + [pivot] + quicksort(greater)
+
+
+arr = [random.randint(-100, 100) for i in range(10)]
+sorted = quicksort(arr)
 print(sorted)
         
         
